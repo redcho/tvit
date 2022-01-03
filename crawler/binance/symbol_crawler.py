@@ -42,7 +42,7 @@ PARAM__SYMBOL_ARR = [
     "BTTUSDT",
     "ONTUSDT",
     "CHZUSDT",
-    "HOTUSDT"
+    "HOTUSDT",
 ]
 
 PARAM__SYMBOL = "ETHUSDT"
@@ -52,12 +52,26 @@ PARAM__TO = "now"
 
 
 def log(msg, symbol=None):
-    print(f"{msg} - SYMBOL: {PARAM__SYMBOL if symbol is None else symbol}, INTERVAL: {PARAM__INTERVAL}, FROM: {PARAM__FROM}, TO: {PARAM__TO}")
+    print(
+        f"{msg} - SYMBOL: {PARAM__SYMBOL if symbol is None else symbol}, INTERVAL: {PARAM__INTERVAL}, FROM: {PARAM__FROM}, TO: {PARAM__TO}"
+    )
 
 
 if __name__ == "__main__":
-    KLINE_COLUMNS = ["OpenTime", "Open", "High", "Low", "Close", "Volume", "CloseTime", "QuoteAssetVolume",
-                     "NumberOfTrades", "TakerBuyAssetVolume", "TakerBuyQuoteAssetVolume", "Ignore"]
+    KLINE_COLUMNS = [
+        "OpenTime",
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Volume",
+        "CloseTime",
+        "QuoteAssetVolume",
+        "NumberOfTrades",
+        "TakerBuyAssetVolume",
+        "TakerBuyQuoteAssetVolume",
+        "Ignore",
+    ]
 
     client = Client(os.environ["API_KEY"], os.environ["SECRET_KEY"])
 
@@ -69,7 +83,9 @@ if __name__ == "__main__":
         csv_id = f"{data_dir}/{get_to_day()}.csv"
 
         log("Fetch started", symbol)
-        klines = client.get_historical_klines(symbol, PARAM__INTERVAL, PARAM__FROM, PARAM__TO)
+        klines = client.get_historical_klines(
+            symbol, PARAM__INTERVAL, PARAM__FROM, PARAM__TO
+        )
         log("Fetch finished")
 
         log("Export started", symbol)

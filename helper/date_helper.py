@@ -6,11 +6,11 @@ def to_millis(dt):
 
 
 def get_cur_week0():
-    return pendulum.now().start_of('week')
+    return pendulum.now().start_of("week")
 
 
 def get_cur_week1():
-    return pendulum.now().end_of('week')
+    return pendulum.now().end_of("week")
 
 
 def get_to_minute(dt=pendulum.now()):

@@ -110,5 +110,8 @@ class DebugStrategy(DefaultStrategy):
         super().next()
 
     def stop(self):
-        self.debug_df.to_csv(f"{self.p.symbol}_{self.p.interval}_{self.p.fromdate}_{self.p.todate}_{self.strategy_id}.csv", index=False)
+        self.debug_df.to_csv(
+            f"{self.p.symbol}_{self.p.interval}_{self.p.fromdate}_{self.p.todate}_{self.strategy_id}.csv",
+            index=False,
+        )
         self.log("Simulation ending..")

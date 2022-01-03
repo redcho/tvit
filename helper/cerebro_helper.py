@@ -33,7 +33,9 @@ def get_cerebro(
         logger.debug(f"Position size is fixed to {stake}")
 
     try:
-        cerebro.addstrategy(strategy, symbol=symbol, interval=interval, fromdate=fromdate, todate=todate)
+        cerebro.addstrategy(
+            strategy, symbol=symbol, interval=interval, fromdate=fromdate, todate=todate
+        )
         logger.debug(f"Strategy added to cerebro")
     except Exception as e:
         logger.error(f"Encountered an error trying to add strategy")

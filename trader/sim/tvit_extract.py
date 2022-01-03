@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
         SYMBOL = "symbol"
 
-        m = d['metadata']
+        m = d["metadata"]
 
         for symbol in d[SYMBOL]:
             logger.debug(f"Requesting cerebro for {symbol} with following conf {m}")
