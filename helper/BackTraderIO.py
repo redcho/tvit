@@ -26,7 +26,9 @@ class BackTraderIO:
     def _read_df(self):
         # TODO After the crawler daily shards implementation, load in here using params
         date_range = "20220103"
-        self.filename = f"~/data/ingestion/binance/{self.symbol}/{self.interval}/{date_range}.csv"
+        self.filename = (
+            f"~/data/ingestion/binance/{self.symbol}/{self.interval}/{date_range}.csv"
+        )
         return self._read_df_with_filename(self.filename)
 
     def _binance_to_bt_df(self, df):

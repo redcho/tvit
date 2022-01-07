@@ -13,12 +13,12 @@ if __name__ == "__main__":
     cerebro = get_cerebro_with_filename(
         [
             f"~/data/ingestion/binance/ETHUSDT/1h/20220107.csv",
-            f"~/data/ingestion/binance/ETHUSDT/4h/20220107.csv"
+            f"~/data/ingestion/binance/ETHUSDT/4h/20220107.csv",
         ],
         DoubleTFStrategy,
-        cash=conf['simulation']["cash"],
-        commission=conf['simulation']["commission"],
-        stake=conf['simulation']["stake"],
+        cash=conf["simulation"]["cash"],
+        commission=conf["simulation"]["commission"],
+        stake=conf["simulation"]["stake"],
     )
 
     # cerebro.addanalyzer(bt.analyzers.TradeAnalyzer, _name="trades")
@@ -30,5 +30,3 @@ if __name__ == "__main__":
     # cerebro.addwriter(bt.WriterFile, csv=False, out="a.csv")
     r = cerebro.run()
     logger.debug("Final Portfolio Value: %.2f" % cerebro.broker.getvalue())
-
-

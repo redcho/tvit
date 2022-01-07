@@ -2,6 +2,7 @@ import backtrader as bt
 from trader.strategies.DefaultStrategy import DefaultStrategy
 from backtrader.order import Order
 
+
 class DoubleTFStrategy(DefaultStrategy):
     params = (
         # FAST EMA BAND
@@ -19,9 +20,8 @@ class DoubleTFStrategy(DefaultStrategy):
         ("ema11", 50),
         ("ema12", 60),
         # Bollinger Bands
-        ('bb_period', 20),
-        ('dev_factor', 2.0),
-
+        ("bb_period", 20),
+        ("dev_factor", 2.0),
     )
 
     def __init__(self):
@@ -41,8 +41,12 @@ class DoubleTFStrategy(DefaultStrategy):
         # self.ema12 = bt.indicators.ExponentialMovingAverage(period=self.p.ema12)
 
         # Lines : mid, top, bot
-        self.st_bb = bt.indicators.BollingerBands(self.data0, period=self.p.bb_period, devfactor=self.p.dev_factor)
-        self.bt_bb = bt.indicators.BollingerBands(self.data1, period=self.p.bb_period, devfactor=self.p.dev_factor)
+        self.st_bb = bt.indicators.BollingerBands(
+            self.data0, period=self.p.bb_period, devfactor=self.p.dev_factor
+        )
+        self.bt_bb = bt.indicators.BollingerBands(
+            self.data1, period=self.p.bb_period, devfactor=self.p.dev_factor
+        )
 
     def next(self):
         if self.order:
@@ -52,16 +56,30 @@ class DoubleTFStrategy(DefaultStrategy):
         if not self.position:
             # Logic to buy
 
-            if self.data0.close[0] < self.bt_bb.bot[0] and self.data0.close < self.st_bb.bot[0]:
-                self.log(f"Close {self.data0.close[0]}, bt_bb.bot {self.bt_bb.bot[0]}, st_bb.bot {self.st_bb.bot[0]}")
-                self.order = self.buy(data=None, size=None, price=None, plimit=None, exectype=Order.Market, valid=None)
+            if (
+                self.data0.close[0] < self.bt_bb.bot[0]
+                and self.data0.close < self.st_bb.bot[0]
+            ):
+                self.log(
+                    f"Close {self.data0.close[0]}, bt_bb.bot {self.bt_bb.bot[0]}, st_bb.bot {self.st_bb.bot[0]}"
+                )
+                self.order = self.buy(
+                    data=None,
+                    size=None,
+                    price=None,
+                    plimit=None,
+                    exectype=Order.Market,
+                    valid=None,
+                )
         else:
             # Logic to sell
             if self.data0.close[0] > self.st_bb.mid[0]:
 
-                self.order = self.sell(data=None, size=None, price=None, plimit=None, exectype=Order.Market, valid=None)
-
-
-
-
-
+                self.order = self.sell(
+                    data=None,
+                    size=None,
+                    price=None,
+                    plimit=None,
+                    exectype=Order.Market,
+                    valid=None,
+                )

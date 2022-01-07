@@ -8,7 +8,7 @@ class Configuration(object):
     @classmethod
     def get_conf(self, filename):
         try:
-            f = open(filename, 'r')
+            f = open(filename, "r")
             return load(f, Loader=FullLoader)
         except Exception as e:
             self.l.error(f"Failed to read file {filename}")

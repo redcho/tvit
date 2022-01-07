@@ -6,12 +6,9 @@ from helper.BackTraderIO import BackTraderIO
 logger = get_logger(__name__)
 tz = pytz.timezone("Europe/Amsterdam")
 
+
 def get_cerebro_with_filename(
-        filenames,
-        strategy,
-        cash=None,
-        commission=None,
-        stake=None
+    filenames, strategy, cash=None, commission=None, stake=None
 ):
     cerebro = bt.Cerebro()
     logger.debug("Cerebro created..")
@@ -38,9 +35,7 @@ def get_cerebro_with_filename(
     try:
         for filename in filenames:
             bt_data = BackTraderIO(filename).get_data()
-            logger.debug(
-                f"Data loaded from {filename}"
-            )
+            logger.debug(f"Data loaded from {filename}")
 
             data = bt.feeds.PandasData(dataname=bt_data, tz=tz)
 
@@ -53,6 +48,7 @@ def get_cerebro_with_filename(
         logger.error(f"Encountered an error trying to add data")
 
     return cerebro
+
 
 def get_cerebro(
     symbol,
