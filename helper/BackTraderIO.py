@@ -1,5 +1,6 @@
 import pandas as pd
 import pytz
+import backtrader as bt
 
 
 class BackTraderIO:
@@ -14,13 +15,19 @@ class BackTraderIO:
 
         self.bt_df = self._binance_to_bt_df(self._read_df())
 
+    def __init__(self, filename, tz=pytz.timezone("Europe/Amsterdam")):
+        self.filename = filename
+        self.tz = tz
+        self.bt_df = self._binance_to_bt_df(self._read_df_with_filename(self.filename))
+
+    def _read_df_with_filename(self, filename):
+        return pd.read_csv(filename)
+
     def _read_df(self):
         # TODO After the crawler daily shards implementation, load in here using params
         date_range = "20220103"
-
-        return pd.read_csv(
-            f"~/data/binance/{self.symbol}/{self.interval}/{date_range}.csv"
-        )
+        self.filename = f"~/data/ingestion/binance/{self.symbol}/{self.interval}/{date_range}.csv"
+        return self._read_df_with_filename(self.filename)
 
     def _binance_to_bt_df(self, df):
         df["datetime"] = (
@@ -50,3 +57,6 @@ class BackTraderIO:
 
     def get_data(self):
         return self.bt_df
+
+    def get_feed(self):
+        return bt.feeds.PandasData(dataname=self.get_data(), tz=self.tz)

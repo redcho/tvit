@@ -16,7 +16,7 @@ PROVIDER = "binance"
 
 # TODO Deprecate param based & do conf based
 PARAM__SYMBOL_ARR = [
-    # "ETHUSDT",
+    "ETHUSDT",
     # "BNBUSDT",
     # "LTCUSDT",
     # "RSRUSDT",
@@ -33,20 +33,20 @@ PARAM__SYMBOL_ARR = [
     # "MATICUSDT",
     # "1INCHUSDT",
     # "AAVEUSDT",
-    "EGLDUSDT",
-    # Speculatives
-    "XRPUSDT",
-    "DOGEUSDT",
-    "SHIBUSDT",
-    # People are in loss
-    "BTTUSDT",
-    "ONTUSDT",
-    "CHZUSDT",
-    "HOTUSDT",
+    # "EGLDUSDT",
+    # # Speculatives
+    # "XRPUSDT",
+    # "DOGEUSDT",
+    # "SHIBUSDT",
+    # # People are in loss
+    # "BTTUSDT",
+    # "ONTUSDT",
+    # "CHZUSDT",
+    # "HOTUSDT",
 ]
 
 PARAM__SYMBOL = "ETHUSDT"
-PARAM__INTERVAL = "1h"
+PARAM__INTERVAL = "4h"
 PARAM__FROM = "1 Jan, 2020"
 PARAM__TO = "now"
 
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     client = Client(os.environ["API_KEY"], os.environ["SECRET_KEY"])
 
     for symbol in PARAM__SYMBOL_ARR:
-        data_dir = f"data/{PROVIDER}/{symbol}/{PARAM__INTERVAL}"
+        data_dir = f"~/data/ingestion/{PROVIDER}/{symbol}/{PARAM__INTERVAL}"
 
         os.makedirs(data_dir, exist_ok=True)
         # TODO Deterministic daily shards

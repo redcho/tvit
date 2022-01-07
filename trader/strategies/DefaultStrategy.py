@@ -1,5 +1,5 @@
 import backtrader as bt
-from util.bt_logging import get_logger
+from helper.bt_logging import get_logger
 
 
 class DefaultStrategy(bt.Strategy):
@@ -11,17 +11,16 @@ class DefaultStrategy(bt.Strategy):
         self.buycomm = None
         self.pstop = None
 
-        self.dataclose = self.datas[0].close
-
     def log(self, txt):
         """Logging function fot this strategy"""
-        dt = self.datas[0].datetime.date()
-        tm = self.datas[0].datetime.time()
+        dt = self.data0.datetime.date()
+        tm = self.data0.datetime.time()
         self.logger.debug("%s: %s, %s" % (dt.isoformat(), tm, txt))
 
     def next(self):
         # Simply log the closing price of the series from the reference
-        self.log("Close, %.2f" % self.dataclose[0])
+        # self.log("Close, %.2f" % self.data0.close)
+        pass
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -58,5 +57,5 @@ class DefaultStrategy(bt.Strategy):
 
         self.log(
             "OPERATION PROFIT, GROSS %.5f, NET %.5f, STOP_LOSS %.5f"
-            % (trade.pnl, trade.pnlcomm, self.pstop)
+            % (trade.pnl, trade.pnlcomm, self.pstop if self.pstop is not None else 0.0)
         )

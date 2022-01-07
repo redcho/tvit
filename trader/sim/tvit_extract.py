@@ -1,6 +1,6 @@
 from yaml import load, FullLoader
 
-from helper.constants import CONF_FILE
+from helper.constants import ENRICH_CONF_FILE
 from trader.strategies.DebugStrategy import DebugStrategy
 
 from helper.bt_logging import get_logger
@@ -10,7 +10,8 @@ logger = get_logger(__name__)
 
 if __name__ == "__main__":
 
-    with open(CONF_FILE, "r") as f:
+    # TODO Use Configuration class
+    with open(ENRICH_CONF_FILE, "r") as f:
         d = load(f.read(), Loader=FullLoader)
 
         SYMBOL = "symbol"

@@ -1,14 +1,9 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import backtrader as bt
-import pandas as pd
 import pytz
 import quantstats
-from helper.BackTraderIO import BackTraderIO
 from helper.cerebro_helper import get_cerebro
-
-from trader.strategies import MACDStrategy
-from trader.strategies import CombinedStrategy
 
 from trader.strategies.DebugStrategy import DebugStrategy
 from helper.bt_logging import get_logger

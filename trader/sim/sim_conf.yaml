@@ -1,0 +1,12 @@
+kind: DoubleTFSim
+spec:
+  low_timeframe: 1h
+  high_timeframe: 4h
+simulation:
+  cash: 10000.0
+  commission: 0.00075
+  stake: 1
+metadata:
+  fromdate: 2020-01-01
+  todate: 2022-01-01
+  symbol: ETHUSDT

@@ -1,9 +1,9 @@
 import backtrader as bt
 import pandas as pd
 
-from strategies.DefaultStrategy import DefaultStrategy
+from trader.strategies.DefaultStrategy import DefaultStrategy
 
-from util.bt_logging import get_logger
+from helper.bt_logging import get_logger
 
 
 class DebugStrategy(DefaultStrategy):
