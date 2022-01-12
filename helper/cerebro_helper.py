@@ -34,7 +34,7 @@ def get_cerebro_with_filename(
 
     try:
         for filename in filenames:
-            bt_data = BackTraderIO(filename).get_data()
+            bt_data = BackTraderIO(filename).filter()
             logger.debug(f"Data loaded from {filename}")
 
             data = bt.feeds.PandasData(dataname=bt_data, tz=tz)

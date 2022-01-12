@@ -6,16 +6,20 @@ class DefaultStrategy(bt.Strategy):
     logger = get_logger(__name__)
 
     def __init__(self):
+        self.log("Initiating a DefaultStrategy")
         self.order = None
         self.buyprice = None
         self.buycomm = None
         self.pstop = None
 
+    def get_date_str(self, datetime):
+        return "%s: %s" % (datetime.date().isoformat(), datetime.time())
+
     def log(self, txt):
         """Logging function fot this strategy"""
-        dt = self.data0.datetime.date()
+        dt = self.data0.datetime.date().isoformat()
         tm = self.data0.datetime.time()
-        self.logger.debug("%s: %s, %s" % (dt.isoformat(), tm, txt))
+        self.logger.debug("%s: %s, %s" % (dt, tm, txt))
 
     def next(self):
         # Simply log the closing price of the series from the reference

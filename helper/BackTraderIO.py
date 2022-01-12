@@ -53,7 +53,7 @@ class BackTraderIO:
 
         return bt_source
 
-    def filter(self, dt="2021-02-28 15:40:00"):
+    def filter(self, dt="2021-11-20 13:00:00"):
         filt = pd.to_datetime(dt, format="%Y-%m-%d %H:%M:%S").tz_localize(self.tz)
         return self.bt_df[self.bt_df.index >= filt]
 

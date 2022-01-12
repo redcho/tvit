@@ -3,7 +3,7 @@ spec:
   low_timeframe: 1h
   high_timeframe: 4h
 simulation:
-  cash: 10000.0
+  cash: 100000.0
   commission: 0.00075
   stake: 1
 metadata:
