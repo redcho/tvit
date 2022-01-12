@@ -115,21 +115,21 @@ class DoubleTFStrategy(DefaultStrategy):
         perc = 1.0
         perc_amt = (self.data0.close[0] * perc / 100.0)
 
-        if self.trend.st_guppy_crossover[0] == 1.0:
+        if self.trend.st_guppy_crossover[0] == 1.0 and self.trend[0] == 2:
             pstop = self.data0.close[0] - perc_amt
             take_profit = self.data0.close[0] + perc_amt
 
             self.log(f"Uptrend detected in the small timeframe {self.data0.close[0]}")
             self.order = self.buy(exectype=Order.Market, transmit=False)
-            self.sell(price=self.pstop, exectype=Order.Stop, size=self.order.size, transmit=False, parent=self.order)
+            self.sell(price=pstop, exectype=Order.Stop, size=self.order.size, transmit=False, parent=self.order)
             self.sell(price=take_profit, exectype=Order.Limit, size=self.order.size, transmit=True, parent=self.order)
-        if self.trend.st_guppy_crossover[0] == -1.0:
+        if self.trend.st_guppy_crossover[0] == -1.0 and self.trend[0] == 0:
             pstop = self.data0.close[0] + perc_amt
             take_profit = self.data0.close[0] - perc_amt
 
             self.log(f"Downtrend detected in the small timeframe {self.data0.close[0]}")
             self.order = self.sell(exectype=Order.Market, transmit=False)
-            self.buy(price=self.pstop, exectype=Order.Stop, size=self.order.size, transmit=False, parent=self.order)
+            self.buy(price=pstop, exectype=Order.Stop, size=self.order.size, transmit=False, parent=self.order)
             self.buy(price=take_profit, exectype=Order.Limit, size=self.order.size, transmit=True, parent=self.order)
 
     def notify_order(self, order):
