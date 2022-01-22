@@ -3,3 +3,6 @@ data
 .pyc
 poc
 local
+token.json
+credentials.json
+binance_api.yaml

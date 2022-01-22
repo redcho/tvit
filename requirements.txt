@@ -6,3 +6,6 @@ pyyaml==6.0
 black==21.12b0
 flake8==4.0.1
 pendulum==2.1.2
+google-api-python-client==2.36.0
+google_auth_httplib2==0.1.0
+google_auth_oauthlib==0.4.6

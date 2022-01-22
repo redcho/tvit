@@ -4,9 +4,9 @@ import pytz
 from helper.BackTraderIO import BackTraderIO
 
 logger = get_logger(__name__)
-tz = pytz.timezone("Europe/Amsterdam")
+tz = pytz.timezone("UTC")
 
-
+# TODO Deprecate this method and use the generic one for multiple timeframe loading
 def get_cerebro_with_filename(
     filenames, strategy, cash=None, commission=None, stake=None
 ):
@@ -34,7 +34,8 @@ def get_cerebro_with_filename(
 
     try:
         for filename in filenames:
-            bt_data = BackTraderIO(filename).filter()
+            # TODO This constructor won't work due to deleted overloaded __init__ in BackTraderIO
+            bt_data = BackTraderIO([filename]).get_all_data()
             logger.debug(f"Data loaded from {filename}")
 
             data = bt.feeds.PandasData(dataname=bt_data, tz=tz)
@@ -85,7 +86,11 @@ def get_cerebro(
         raise
 
     try:
-        bt_data = BackTraderIO(symbol, interval, fromdate, todate).get_data()
+        # Load with filename
+        # bt_data = BackTraderIO("./20220119.csv").get_all_data()
+
+        bt_data = BackTraderIO(symbol, interval, fromdate, todate).filter()
+
         logger.debug(
             f"Data loaded from {fromdate} to {todate} for {symbol} per {interval}"
         )
@@ -95,6 +100,7 @@ def get_cerebro(
         cerebro.addtz(tz)
         logger.debug(f"Data feed added to the simulation feed")
     except Exception as e:
-        logger.error(f"Encountered an error trying to add data")
+        logger.error(f"Encountered an error trying to add data: {e}")
+        raise
 
     return cerebro

@@ -7,17 +7,15 @@ Required parameters are via Environment variable
 
 from binance.client import Client
 
-from helper.date_helper import get_to_day
-
+from helper.gdrive_helper import *
 import pandas as pd
 import os
 
 PROVIDER = "binance"
 
-# TODO Deprecate param based & do conf based
 PARAM__SYMBOL_ARR = [
-    "ETHUSDT",
-    # "BNBUSDT",
+    # "ETHUSDT",
+    "BNBUSDT",
     # "LTCUSDT",
     # "RSRUSDT",
     # "CAKEUSDT",
@@ -45,15 +43,15 @@ PARAM__SYMBOL_ARR = [
     # "HOTUSDT",
 ]
 
-PARAM__SYMBOL = "ETHUSDT"
-PARAM__INTERVAL = "4h"
-PARAM__FROM = "1 Jan, 2020"
+PARAM__INTERVAL = "1h"
+PARAM__FROM = "1 Jan, 2021"
 PARAM__TO = "now"
 
+PARAM__UPLOAD_GDRIVE = True
 
 def log(msg, symbol=None):
     print(
-        f"{msg} - SYMBOL: {PARAM__SYMBOL if symbol is None else symbol}, INTERVAL: {PARAM__INTERVAL}, FROM: {PARAM__FROM}, TO: {PARAM__TO}"
+        f"{msg} - SYMBOL: {symbol}, INTERVAL: {PARAM__INTERVAL}, FROM: {PARAM__FROM}, TO: {PARAM__TO}"
     )
 
 
@@ -76,18 +74,27 @@ if __name__ == "__main__":
     client = Client(os.environ["API_KEY"], os.environ["SECRET_KEY"])
 
     for symbol in PARAM__SYMBOL_ARR:
-        data_dir = f"~/data/ingestion/{PROVIDER}/{symbol}/{PARAM__INTERVAL}"
-
+        data_dir = f"data/ingestion/{PROVIDER}/{symbol}/{PARAM__INTERVAL}"
         os.makedirs(data_dir, exist_ok=True)
-        # TODO Deterministic daily shards
-        csv_id = f"{data_dir}/{get_to_day()}.csv"
 
         log("Fetch started", symbol)
         klines = client.get_historical_klines(
             symbol, PARAM__INTERVAL, PARAM__FROM, PARAM__TO
         )
-        log("Fetch finished")
+        log("Fetch finished", symbol)
 
         log("Export started", symbol)
-        pd.DataFrame(klines, columns=KLINE_COLUMNS).to_csv(csv_id, index=False)
-        log(f"Export finished to {csv_id}", symbol)
+        export_df = pd.DataFrame(klines, columns=KLINE_COLUMNS)
+
+        ts = pd.to_datetime(export_df['OpenTime'], unit="ms").dt.strftime('%Y')
+        for i, x in export_df.groupby(ts):
+            csv_id = f"{data_dir}/{i}.csv"
+            x.to_csv(csv_id, index=False)
+
+            log(f"Export finished to {csv_id}", symbol)
+
+            if PARAM__UPLOAD_GDRIVE:
+                log(f"Uploading to gdrive://{csv_id}", symbol)
+                # TODO Check for duplicates and prevent duplicates.
+                # Either delete/recreate OR update the existing file
+                upload_file(csv_id, csv_id)

@@ -77,7 +77,7 @@ if __name__ == "__main__":
         },
     }
 
-    tz = pytz.timezone("Europe/Amsterdam")
+    tz = pytz.timezone("UTC")
 
     for symbol, conf in symbols.items():
 
