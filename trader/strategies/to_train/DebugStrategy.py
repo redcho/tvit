@@ -38,7 +38,6 @@ class DebugStrategy(DefaultStrategy):
         super().__init__()
 
         self.strategy_id = "bb_ema12"
-        self.logger.debug(f"Strategy is being initiated with id {self.strategy_id}")
 
         self.ema1 = bt.indicators.ExponentialMovingAverage(period=self.p.ema1)
         self.ema2 = bt.indicators.ExponentialMovingAverage(period=self.p.ema2)

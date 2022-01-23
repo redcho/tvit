@@ -19,11 +19,6 @@ class BackTraderIO:
 
         self.bt_df = self._binance_to_bt_df(self._read_df())
 
-    # def __init__(self, filenames, tz=pytz.timezone("UTC")):
-    #     self.filenames = filenames
-    #     self.tz = tz
-    #     self.bt_df = self._binance_to_bt_df(self._read_df())
-
     def _read_df(self):
         return pd.concat(map(pd.read_csv, self.filenames))
 

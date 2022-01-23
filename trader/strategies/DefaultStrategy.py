@@ -5,12 +5,15 @@ from helper.bt_logging import get_logger
 class DefaultStrategy(bt.Strategy):
     logger = get_logger(__name__)
 
-    def __init__(self):
+    def __init__(self, strategy_id):
         self.log("Initiating a DefaultStrategy")
         self.order = None
         self.buyprice = None
         self.buycomm = None
         self.pstop = None
+        self.strategy_id = strategy_id
+
+        self.logger.debug(f"Strategy is being initiated with id {self.strategy_id}")
 
     def get_date_str(self, datetime):
         return "%s: %s" % (datetime.date().isoformat(), datetime.time())

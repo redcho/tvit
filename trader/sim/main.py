@@ -5,7 +5,7 @@ import pytz
 import quantstats
 from helper.cerebro_helper import get_cerebro
 
-from trader.strategies.DebugStrategy import DebugStrategy
+from trader.strategies.to_train.DebugStrategy import DebugStrategy
 from helper.bt_logging import get_logger
 
 
