@@ -1,4 +1,6 @@
 data
+test
+prd
 .idea
 .pyc
 poc
@@ -6,3 +8,5 @@ local
 token.json
 credentials.json
 binance_api.yaml
+.DS_Store
+__pycache__

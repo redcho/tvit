@@ -92,13 +92,13 @@ if __name__ == "__main__":
             stake=conf["stake"],
         )
 
-        cerebro.addanalyzer(bt.analyzers.TradeAnalyzer, _name="trades")
-        cerebro.addanalyzer(bt.analyzers.SQN, _name="sqn")
-        cerebro.addanalyzer(bt.analyzers.PyFolio, _name="PyFolio")
+        # cerebro.addanalyzer(bt.analyzers.TradeAnalyzer, _name="trades")
+        # cerebro.addanalyzer(bt.analyzers.SQN, _name="sqn")
+        # cerebro.addanalyzer(bt.analyzers.PyFolio, _name="PyFolio")
         logger.debug(f"Active analyzers are {cerebro.analyzers}")
 
         logger.debug("Starting Portfolio Value: %.2f" % cerebro.broker.getvalue())
-        cerebro.addwriter(bt.WriterFile, csv=False, out="a.csv")
+        # cerebro.addwriter(bt.WriterFile, csv=False, out="a.csv")
         r = cerebro.run()
         logger.debug("Final Portfolio Value: %.2f" % cerebro.broker.getvalue())
 

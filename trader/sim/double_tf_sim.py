@@ -59,6 +59,7 @@ if __name__ == "__main__":
 
     conf = Configuration.get_conf(SIM_CONF_FILE)
 
+    # Doesn't exist anymore, adjust to use get_cerebro only
     cerebro = get_cerebro_with_filename(
         [
             f"~/data/ingestion/binance/ETHUSDT/1h/20220107.csv",
