@@ -2,8 +2,9 @@ import backtrader as bt
 from helper.bt_logging import get_logger
 from helper.constants import SIM_CONF_FILE
 from helper.Configuration import Configuration
-from helper.cerebro_helper import get_cerebro_with_filename
+from helper.cerebro_helper import get_cerebro
 from trader.strategies.DoubleTFStrategy import DoubleTFStrategy
+from datetime import datetime
 
 import quantstats
 
@@ -59,16 +60,16 @@ if __name__ == "__main__":
 
     conf = Configuration.get_conf(SIM_CONF_FILE)
 
-    # Doesn't exist anymore, adjust to use get_cerebro only
-    cerebro = get_cerebro_with_filename(
-        [
-            f"~/data/ingestion/binance/ETHUSDT/1h/20220107.csv",
-            f"~/data/ingestion/binance/ETHUSDT/4h/20220107.csv",
-        ],
+    cerebro = get_cerebro(
+        "ETHUSDT",
+        "1h",
+        datetime(2021,1,1),
+        datetime(2022,2,1),
         DoubleTFStrategy,
         cash=conf["simulation"]["cash"],
         commission=conf["simulation"]["commission"],
         stake=conf["simulation"]["stake"],
+        higher_intervals=["4h"]
     )
 
     cerebro.addanalyzer(bt.analyzers.TradeAnalyzer, _name="trades")
@@ -81,4 +82,4 @@ if __name__ == "__main__":
     r = cerebro.run()
     logger.debug("Final Portfolio Value: %.2f" % cerebro.broker.getvalue())
 
-    printCerebroResult(r, "ETHUSDT")
+    # printCerebroResult(r, "ETHUSDT")

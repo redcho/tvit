@@ -7,15 +7,14 @@ Required parameters are via Environment variable
 
 from binance.client import Client
 
-from helper.gdrive_helper import *
 import pandas as pd
 import os
 
 PROVIDER = "binance"
 
 PARAM__SYMBOL_ARR = [
-    # "ETHUSDT",
-    "BNBUSDT",
+    "ETHUSDT",
+    # "BNBUSDT",
     # "LTCUSDT",
     # "RSRUSDT",
     # "CAKEUSDT",
@@ -43,11 +42,11 @@ PARAM__SYMBOL_ARR = [
     # "HOTUSDT",
 ]
 
-PARAM__INTERVAL = "1d"
+PARAM__INTERVAL = "4h"
 PARAM__FROM = "1 Jan, 2020"
 PARAM__TO = "now"
 
-PARAM__UPLOAD_GDRIVE = True
+PARAM__UPLOAD_GDRIVE = False
 
 def log(msg, symbol=None):
     print(
@@ -94,6 +93,8 @@ if __name__ == "__main__":
             log(f"Export finished to {csv_id}", symbol)
 
             if PARAM__UPLOAD_GDRIVE:
+                from helper.gdrive_helper import *
+
                 log(f"Uploading to gdrive://{csv_id}", symbol)
                 # TODO Check for duplicates and prevent duplicates.
                 # Either delete/recreate OR update the existing file

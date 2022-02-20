@@ -76,6 +76,11 @@ class SuperTrend(bt.Indicator):
 
 class DoubleTFStrategy(DefaultStrategy):
     params = (
+        # Metadata
+        ("symbol", ""),
+        ("interval", ""),
+        ("fromdate", ""),
+        ("todate", ""),
         # FAST EMA BAND
         ("ema1", 3),
         ("ema2", 5),
@@ -96,7 +101,8 @@ class DoubleTFStrategy(DefaultStrategy):
     )
 
     def __init__(self):
-        super().__init__()
+        super().__init__("double_tf_strategy")
+
         self.trend_mapping = ["Strong Downtrend", "Weak Downtrend", "Weak Uptrend", "Strong Uptrend"]
 
         self.trend = TrendWithGuppy(bt_data=self.data1)
@@ -110,7 +116,7 @@ class DoubleTFStrategy(DefaultStrategy):
         )
 
     def next(self):
-        # self.log(f"Candle #{len(self)}, Close {self.data0.close[0]}, Direction: {self.trend_mapping[int(self.trend[0])]}")
+        self.log(f"Candle #{len(self)}, Close {self.data0.close[0]}, Direction: {self.trend_mapping[int(self.trend[0])]}")
 
         perc = 1.0
         perc_amt = (self.data0.close[0] * perc / 100.0)

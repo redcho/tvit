@@ -47,14 +47,13 @@ def get_cerebro(
         # bt_data = BackTraderIO("./20220119.csv").get_all_data()
 
         bt_data = BackTraderIO(symbol, interval, fromdate, todate).filter()
+        # TODO Add data id since multiple dataframes can be added
+        data = bt.feeds.PandasData(dataname=bt_data, tz=tz)
+        cerebro.adddata(data)
 
         logger.debug(
             f"Data loaded from {fromdate} to {todate} for {symbol} per {interval}"
         )
-
-        # TODO Add data id since multiple dataframes can be added
-        data = bt.feeds.PandasData(dataname=bt_data, tz=tz)
-        cerebro.adddata(data)
 
         # TODO TEST THIS
         for higher_interval in higher_intervals:
