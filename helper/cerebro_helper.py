@@ -16,7 +16,8 @@ def get_cerebro(
     cash=None,
     commission=None,
     stake=None,
-    higher_intervals=[]
+    higher_intervals=[],
+    trade_from=None
 ):
     cerebro = bt.Cerebro()
     logger.debug("Cerebro created..")
@@ -35,7 +36,7 @@ def get_cerebro(
 
     try:
         cerebro.addstrategy(
-            strategy, symbol=symbol, interval=interval, fromdate=fromdate, todate=todate
+            strategy, symbol=symbol, interval=interval, fromdate=fromdate, todate=todate, trade_from=trade_from
         )
         logger.debug(f"Strategy added to cerebro")
     except Exception as e:

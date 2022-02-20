@@ -1,12 +1,14 @@
 kind: TradeSimulation
-timeframes:
-  - 1h
-  - 4h
 simulation:
   cash: 100000.0
   commission: 0.00075
   stake: 1
+  tradefrom: 2022-01-01
 metadata:
-  fromdate: 2020-01-01
-  todate: 2022-01-01
   symbol: ETHUSDT
+  interval: 15m
+  fromdate: 2020-10-01
+  todate: 2022-01-25
+extra_timeframes:
+  - 4h
+  - 1d

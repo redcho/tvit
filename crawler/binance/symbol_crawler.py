@@ -14,8 +14,8 @@ import os
 PROVIDER = "binance"
 
 PARAM__SYMBOL_ARR = [
-    # "ETHUSDT",
-    "BNBUSDT",
+    "ETHUSDT",
+    # "BNBUSDT",
     # "LTCUSDT",
     # "RSRUSDT",
     # "CAKEUSDT",
@@ -43,7 +43,7 @@ PARAM__SYMBOL_ARR = [
     # "HOTUSDT",
 ]
 
-PARAM__INTERVAL = "1d"
+PARAM__INTERVAL = "15m"
 PARAM__FROM = "1 Jan, 2020"
 PARAM__TO = "now"
 
@@ -74,6 +74,7 @@ if __name__ == "__main__":
     client = Client(os.environ["API_KEY"], os.environ["SECRET_KEY"])
 
     for symbol in PARAM__SYMBOL_ARR:
+        # Check from google drive if already present in cloud
         data_dir = f"data/ingestion/{PROVIDER}/{symbol}/{PARAM__INTERVAL}"
         os.makedirs(data_dir, exist_ok=True)
 

@@ -6,7 +6,6 @@ class DefaultStrategy(bt.Strategy):
     logger = get_logger(__name__)
 
     def __init__(self, strategy_id):
-        self.log("Initiating a DefaultStrategy")
         self.order = None
         self.buyprice = None
         self.buycomm = None

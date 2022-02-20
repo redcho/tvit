@@ -1,12 +1,14 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import backtrader as bt
-import pytz
 import quantstats
 from helper.cerebro_helper import get_cerebro
+from helper.Configuration import Configuration
+from helper.constants import SIM_CONF_FILE
 
-from trader.strategies.to_train.DebugStrategy import DebugStrategy
+from trader.strategies.prd.SuperTrendStrategy import SuperTrendStrategy
 from helper.bt_logging import get_logger
+
+from datetime import datetime
 
 
 def printSQN(analyzer):
@@ -61,64 +63,48 @@ def printCerebroResult(results, symbol):
 if __name__ == "__main__":
     logger = get_logger(__name__)
 
-    # logging.basicConfig(filename='app.log', filemode='w',
-    #                     format='%(name)s - %(levelname)s - %(message)s')
+    logger.debug(f"Loading configuration file {SIM_CONF_FILE}")
+    conf = Configuration.get_conf(SIM_CONF_FILE)
 
-    symbols = {
-        "ETHUSDT": {
-            # Data source conf
-            "interval": "1h",
-            "fromdate": "2021-01-01",
-            "todate": "2022-01-01",
-            # Trade conf
-            "cash": 1000.0,
-            "commission": 0.00075,
-            "stake": 100,
-        },
-    }
+    cerebro = get_cerebro(
+        conf['metadata']['symbol'],
+        conf['metadata']["interval"],
+        conf['metadata']["fromdate"],
+        conf['metadata']["todate"],
+        SuperTrendStrategy,
+        cash=conf['simulation']["cash"],
+        commission=conf['simulation']["commission"],
+        stake=conf['simulation']["stake"],
+        trade_from=conf['simulation']['tradefrom']
+    )
 
-    tz = pytz.timezone("UTC")
+    # cerebro.addanalyzer(bt.analyzers.TradeAnalyzer, _name="trades")
+    # cerebro.addanalyzer(bt.analyzers.SQN, _name="sqn")
+    # cerebro.addanalyzer(bt.analyzers.PyFolio, _name="PyFolio")
+    logger.debug(f"Active analyzers are {cerebro.analyzers}")
 
-    for symbol, conf in symbols.items():
+    logger.debug("Starting Portfolio Value: %.2f" % cerebro.broker.getvalue())
+    # cerebro.addwriter(bt.WriterFile, csv=False, out="a.csv")
+    r = cerebro.run()
+    logger.debug("Final Portfolio Value: %.2f" % cerebro.broker.getvalue())
 
-        cerebro = get_cerebro(
-            symbol,
-            conf["interval"],
-            conf["fromdate"],
-            conf["todate"],
-            DebugStrategy,
-            cash=conf["cash"],
-            commission=conf["commission"],
-            stake=conf["stake"],
-        )
+    # printCerebroResult(r, conf['metadata']['symbol'])
 
-        # cerebro.addanalyzer(bt.analyzers.TradeAnalyzer, _name="trades")
-        # cerebro.addanalyzer(bt.analyzers.SQN, _name="sqn")
-        # cerebro.addanalyzer(bt.analyzers.PyFolio, _name="PyFolio")
-        logger.debug(f"Active analyzers are {cerebro.analyzers}")
+    cerebro.plot(style='bar', stdstats=True)
 
-        logger.debug("Starting Portfolio Value: %.2f" % cerebro.broker.getvalue())
-        # cerebro.addwriter(bt.WriterFile, csv=False, out="a.csv")
-        r = cerebro.run()
-        logger.debug("Final Portfolio Value: %.2f" % cerebro.broker.getvalue())
+    # cerebro.optstrategy(
+    #     CombinedStrategy.CombinedStrategy,
+    #     kama=range(10,15),
+    #     macd2=range(20,30)
+    # )
 
-        # printCerebroResult(r, symbol)
-
-        # cerebro.plot(style='bar', stdstats=True)
-
-        # cerebro.optstrategy(
-        #     CombinedStrategy.CombinedStrategy,
-        #     kama=range(10,15),
-        #     macd2=range(20,30)
-        # )
-
-        # import pyfolio as pf
-        # pf.create_full_tear_sheet(
-        #     returns,
-        #     positions=positions,
-        #     transactions=transactions,
-        #     # gross_lev=gross_lev,
-        #     live_start_date='2008-01-01',  # This date is sample specific
-        #     round_trips=True)
-        # pf.create_simple_tear_sheet(returns)
-        # pf.create_returns_tear_sheet(returns)
+    # import pyfolio as pf
+    # pf.create_full_tear_sheet(
+    #     returns,
+    #     positions=positions,
+    #     transactions=transactions,
+    #     # gross_lev=gross_lev,
+    #     live_start_date='2008-01-01',  # This date is sample specific
+    #     round_trips=True)
+    # pf.create_simple_tear_sheet(returns)
+    # pf.create_returns_tear_sheet(returns)

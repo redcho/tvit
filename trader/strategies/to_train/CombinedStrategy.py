@@ -7,14 +7,14 @@ from helper.bt_logging import get_logger
 
 
 class CombinedStrategy(DefaultStrategy):
-    logger = get_logger(__name__)
-
     params = (
         # Metadata
         ("symbol", ""),
         ("interval", ""),
         ("fromdate", ""),
         ("todate", ""),
+        ("trade_from", ""),
+        # -----
         ("ema1", 3),
         ("ema2", 5),
         ("ema3", 8),
